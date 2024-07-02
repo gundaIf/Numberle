@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Numberle</title>
+    <title>Cryptic Numerals</title>
     <style>
         * {
             margin: 0;
@@ -12,65 +12,69 @@
         }
         body, html {
             height: 100%;
-            font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-            background-color: #f3f3f3;
-            color: #1a1a1b;
+            font-family: "Times New Roman", serif;
+            background-color: #f0e6d2;
+            color: #3a3a3a;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding-top: 50px;
+            padding-top: 30px;
         }
-        .logo {
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background-image: url('https://i.imgur.com/ZMpfVVa.png');
+            background-size: cover;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        .title {
             font-size: 2.5rem;
             font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .instructions {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
             text-align: center;
+            margin-bottom: 20px;
+            color: #8B4513;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
-        .button-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        .button {
-            padding: 10px 20px;
-            font-size: 1rem;
-            border: 1px solid #1a1a1b;
-            border-radius: 25px;
-            background-color: #f3f3f3;
-            color: #1a1a1b;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .button:hover {
-            background-color: #e0e0e0;
-        }
-        .button.play {
-            background-color: #1a1a1b;
-            color: #f3f3f3;
-        }
-        .button.play:hover {
-            background-color: #2a2a2b;
-        }
-        #game-container {
-            background-color: #f3f3f3;
-            padding: 2rem;
+        .scroll {
+            background-color: rgba(255, 253, 240, 0.9);
+            border: 2px solid #8B4513;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-style: italic;
+            box-shadow: 0 0 10px rgba(139, 69, 19, 0.3);
+        }
+        #clue {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 20px;
         }
         #guess-input {
             width: 100%;
             padding: 10px;
             font-size: 1.2rem;
             margin-bottom: 10px;
-            border: 1px solid #1a1a1b;
+            border: 2px solid #8B4513;
             border-radius: 5px;
+            background-color: rgba(255, 253, 240, 0.8);
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: 2px solid #8B4513;
+            border-radius: 5px;
+            background-color: #8B4513;
+            color: #f0e6d2;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .button:hover {
+            background-color: #a0522d;
         }
         #guesses {
             margin-top: 20px;
@@ -86,14 +90,16 @@
             line-height: 40px;
             text-align: center;
             margin: 0 3px;
-            border: 2px solid #d3d6da;
+            border: 2px solid #8B4513;
             font-weight: bold;
             font-size: 1.2rem;
+            background-color: rgba(255, 253, 240, 0.8);
         }
         #message {
             margin-top: 10px;
             font-weight: bold;
             height: 1.5em;
+            text-align: center;
         }
         .footer {
             margin-top: 30px;
@@ -101,30 +107,38 @@
             color: #666;
             text-align: center;
         }
+        @keyframes unroll {
+            from { max-height: 0; opacity: 0; }
+            to { max-height: 200px; opacity: 1; }
+        }
+        .animate-unroll {
+            animation: unroll 1s ease-out;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
-    <div class="logo">Numberle</div>
-    <div class="instructions">Get 6 chances to guess a 4-digit number.</div>
-    <div class="button-container">
-        <button class="button" onclick="showInstructions()">How to play</button>
-        <button class="button play" onclick="startGame()">Play</button>
-    </div>
-    <div id="game-container" style="display: none;">
+    <div class="container">
+        <h1 class="title">Cryptic Numerals</h1>
+        <div class="scroll">
+            <div id="clue">Decipher the secret number left by ancient mathematicians...</div>
+        </div>
         <input type="text" id="guess-input" maxlength="4" placeholder="Enter 4 digits">
-        <button class="button play" onclick="handleGuess()">Guess</button>
+        <button class="button" onclick="handleGuess()">Decipher</button>
         <div id="guesses"></div>
         <div id="message"></div>
     </div>
     <div class="footer">
-        <p>Numberle - A number guessing game</p>
-        <p id="date"></p>
+        <p>Cryptic Numerals - Unravel the mysteries of numbers</p>
+        <p id="level"></p>
     </div>
 
     <script>
         let targetNumber;
         let guesses = [];
         let gameOver = false;
+        let currentLevel = 1;
+        let clues = [];
 
         function generateNumber() {
             return Math.floor(1000 + Math.random() * 9000).toString();
@@ -134,15 +148,34 @@
             targetNumber = generateNumber();
             guesses = [];
             gameOver = false;
+            clues = generateClues(targetNumber);
             document.getElementById('guesses').innerHTML = '';
             document.getElementById('message').textContent = '';
             document.getElementById('guess-input').value = '';
-            document.getElementById('guess-input').disabled = false;
+            document.getElementById('level').textContent = `Level: ${currentLevel}`;
+            showNextClue();
         }
 
-        function startGame() {
-            initGame();
-            document.getElementById('game-container').style.display = 'block';
+        function generateClues(number) {
+            const digits = number.split('').map(Number);
+            return [
+                `The sum of the digits is ${digits.reduce((a, b) => a + b, 0)}.`,
+                `The number is ${number % 2 === 0 ? 'even' : 'odd'}.`,
+                `The product of the digits is ${digits.reduce((a, b) => a * b)}.`,
+                `The number is ${number % 3 === 0 ? '' : 'not '}divisible by 3.`,
+                `The first digit is ${digits[0] % 2 === 0 ? 'even' : 'odd'}.`,
+                `The last digit is ${digits[3] % 2 === 0 ? 'even' : 'odd'}.`,
+            ];
+        }
+
+        function showNextClue() {
+            if (clues.length > 0) {
+                const clueElement = document.getElementById('clue');
+                clueElement.textContent = clues.shift();
+                clueElement.classList.remove('animate-unroll');
+                void clueElement.offsetWidth; // Trigger reflow
+                clueElement.classList.add('animate-unroll');
+            }
         }
 
         function handleGuess() {
@@ -159,9 +192,12 @@
             guessInput.value = '';
             
             if (currentGuess === targetNumber) {
-                endGame('Correct! You win!');
+                endGame('Congratulations! You\'ve deciphered the ancient code!');
+                currentLevel++;
             } else if (guesses.length >= 6) {
-                endGame(`Game over. The number was ${targetNumber}.`);
+                endGame(`The ancient code remains unbroken. The number was ${targetNumber}.`);
+            } else {
+                showNextClue();
             }
         }
 
@@ -170,13 +206,13 @@
             const guessElement = document.createElement('div');
             guessElement.className = 'guess-row';
             guessElement.innerHTML = guess.split('').map((digit, index) => {
-                let bgColor = '#787c7e';
+                let bgColor = '#d3d3d3';
                 if (digit === targetNumber[index]) {
-                    bgColor = '#6aaa64';
+                    bgColor = '#90EE90';
                 } else if (targetNumber.includes(digit)) {
-                    bgColor = '#c9b458';
+                    bgColor = '#FFFFE0';
                 }
-                return `<span class="digit" style="background-color: ${bgColor}; color: white;">${digit}</span>`;
+                return `<span class="digit" style="background-color: ${bgColor};">${digit}</span>`;
             }).join('');
             guessesContainer.appendChild(guessElement);
         }
@@ -189,14 +225,16 @@
             setMessage(msg);
             gameOver = true;
             document.getElementById('guess-input').disabled = true;
-        }
-
-        function showInstructions() {
-            alert("How to play Numberle:\n\n1. Guess the 4-digit number.\n2. After each guess, the color of the tiles will change to show how close your guess was to the number.\n3. Green: The digit is correct and in the right position.\n4. Yellow: The digit is in the number but in the wrong position.\n5. Gray: The digit is not in the number.\n6. You have 6 tries to guess the number.");
+            setTimeout(() => {
+                if (confirm('Do you wish to decipher another ancient code?')) {
+                    initGame();
+                    document.getElementById('guess-input').disabled = false;
+                }
+            }, 1500);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('date').textContent = new Date().toLocaleDateString();
+            initGame();
             document.getElementById('guess-input').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') handleGuess();
             });
