@@ -13,118 +13,112 @@
         body, html {
             height: 100%;
             font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-            font-weight: 400;
-            background-color: #000;
-            color: #fff;
-            overflow: hidden;
-        }
-        .container {
+            background-color: #f3f3f3;
+            color: #1a1a1b;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            height: 100%;
-            padding: 2rem;
+            justify-content: flex-start;
+            padding-top: 50px;
         }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 2rem;
-            font-weight: normal;
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .instructions {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: 1px solid #1a1a1b;
+            border-radius: 25px;
+            background-color: #f3f3f3;
+            color: #1a1a1b;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .button:hover {
+            background-color: #e0e0e0;
+        }
+        .button.play {
+            background-color: #1a1a1b;
+            color: #f3f3f3;
+        }
+        .button.play:hover {
+            background-color: #2a2a2b;
         }
         #game-container {
-            background-color: #000;
+            background-color: #f3f3f3;
             padding: 2rem;
-            border: 2px solid #fff;
-            border-radius: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 500px;
         }
         #guess-input {
             width: 100%;
-            padding: 1rem;
+            padding: 10px;
             font-size: 1.2rem;
-            margin-bottom: 1rem;
-            border: 1px solid #fff;
-            border-radius: 10px;
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-        }
-        #guess-button {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1.2rem;
-            background-color: #fff;
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, transform 0.1s;
-        }
-        #guess-button:hover {
-            background-color: #e0e0e0;
-        }
-        #guess-button:active {
-            transform: scale(0.98);
+            margin-bottom: 10px;
+            border: 1px solid #1a1a1b;
+            border-radius: 5px;
         }
         #guesses {
-            margin-top: 2rem;
+            margin-top: 20px;
         }
         .guess-row {
             display: flex;
             justify-content: center;
-            margin-bottom: 1rem;
+            margin-bottom: 5px;
         }
         .digit {
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
             text-align: center;
-            margin: 0 5px;
-            border-radius: 10px;
-            color: #000;
+            margin: 0 3px;
+            border: 2px solid #d3d6da;
             font-weight: bold;
-            font-size: 1.5rem;
-            transition: transform 0.3s;
-        }
-        .digit.pop {
-            animation: pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        @keyframes pop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+            font-size: 1.2rem;
         }
         #message {
-            margin-top: 1rem;
+            margin-top: 10px;
             font-weight: bold;
-            color: #fff;
             height: 1.5em;
         }
-        .floating-circle {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float 20s infinite ease-in-out;
-        }
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(50px, -50px); }
-            50% { transform: translate(100px, 0); }
-            75% { transform: translate(50px, 50px); }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Numberle</h1>
-        <div id="game-container">
-            <input type="text" id="guess-input" maxlength="4" placeholder="Enter 4 digits">
-            <button id="guess-button">Guess</button>
-            <div id="guesses"></div>
-            <div id="message"></div>
-        </div>
+    <div class="logo">Numberle</div>
+    <div class="instructions">Get 6 chances to guess a 4-digit number.</div>
+    <div class="button-container">
+        <button class="button" onclick="showInstructions()">How to play</button>
+        <button class="button play" onclick="startGame()">Play</button>
+    </div>
+    <div id="game-container" style="display: none;">
+        <input type="text" id="guess-input" maxlength="4" placeholder="Enter 4 digits">
+        <button class="button play" onclick="handleGuess()">Guess</button>
+        <div id="guesses"></div>
+        <div id="message"></div>
+    </div>
+    <div class="footer">
+        <p>Numberle - A number guessing game</p>
+        <p id="date"></p>
     </div>
 
     <script>
@@ -144,7 +138,11 @@
             document.getElementById('message').textContent = '';
             document.getElementById('guess-input').value = '';
             document.getElementById('guess-input').disabled = false;
-            document.getElementById('guess-button').disabled = false;
+        }
+
+        function startGame() {
+            initGame();
+            document.getElementById('game-container').style.display = 'block';
         }
 
         function handleGuess() {
@@ -172,24 +170,15 @@
             const guessElement = document.createElement('div');
             guessElement.className = 'guess-row';
             guessElement.innerHTML = guess.split('').map((digit, index) => {
-                let bgColor = '#777';
+                let bgColor = '#787c7e';
                 if (digit === targetNumber[index]) {
-                    bgColor = '#4CAF50';  // Green for correct digit and position
+                    bgColor = '#6aaa64';
                 } else if (targetNumber.includes(digit)) {
-                    bgColor = '#FFC107';  // Yellow for correct digit, wrong position
+                    bgColor = '#c9b458';
                 }
-                return `<span class="digit" style="background-color: ${bgColor};">${digit}</span>`;
+                return `<span class="digit" style="background-color: ${bgColor}; color: white;">${digit}</span>`;
             }).join('');
             guessesContainer.appendChild(guessElement);
-            
-            // Add pop animation
-            setTimeout(() => {
-                guessElement.querySelectorAll('.digit').forEach((digit, index) => {
-                    setTimeout(() => {
-                        digit.classList.add('pop');
-                    }, index * 100);
-                });
-            }, 50);
         }
 
         function setMessage(msg) {
@@ -200,28 +189,17 @@
             setMessage(msg);
             gameOver = true;
             document.getElementById('guess-input').disabled = true;
-            document.getElementById('guess-button').disabled = true;
+        }
+
+        function showInstructions() {
+            alert("How to play Numberle:\n\n1. Guess the 4-digit number.\n2. After each guess, the color of the tiles will change to show how close your guess was to the number.\n3. Green: The digit is correct and in the right position.\n4. Yellow: The digit is in the number but in the wrong position.\n5. Gray: The digit is not in the number.\n6. You have 6 tries to guess the number.");
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            initGame();
-            document.getElementById('guess-button').addEventListener('click', handleGuess);
+            document.getElementById('date').textContent = new Date().toLocaleDateString();
             document.getElementById('guess-input').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') handleGuess();
             });
-
-            // Add floating circles
-            for (let i = 0; i < 20; i++) {
-                const circle = document.createElement('div');
-                circle.className = 'floating-circle';
-                circle.style.width = `${Math.random() * 100 + 50}px`;
-                circle.style.height = circle.style.width;
-                circle.style.left = `${Math.random() * 100}vw`;
-                circle.style.top = `${Math.random() * 100}vh`;
-                circle.style.animationDuration = `${Math.random() * 10 + 15}s`;
-                circle.style.animationDelay = `${Math.random() * 5}s`;
-                document.body.appendChild(circle);
-            }
         });
     </script>
 </body>
