@@ -2,7 +2,7 @@
 
 Access: https://gundaif.github.io/Numberle/
 
-Numberle is a number-guessing game inspired by Wordle but with a unique twist. Instead of guessing words, players decipher a secret 4-digit number using cryptic clues.
+Numberle is a number-guessing game inspired by Wordle but with a twist. Instead of guessing words, players decipher a secret 4-digit number using cryptic clues.
 
 ## Game Description
 
