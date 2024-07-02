@@ -12,9 +12,10 @@
         }
         body, html {
             height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            font-weight: 400;
+            background-color: #000;
+            color: #fff;
             overflow: hidden;
         }
         .container {
@@ -28,14 +29,13 @@
         h1 {
             font-size: 3rem;
             margin-bottom: 2rem;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-weight: normal;
         }
         #game-container {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: #000;
             padding: 2rem;
+            border: 2px solid #fff;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             width: 100%;
             max-width: 500px;
         }
@@ -44,24 +44,25 @@
             padding: 1rem;
             font-size: 1.2rem;
             margin-bottom: 1rem;
-            border: none;
+            border: 1px solid #fff;
             border-radius: 10px;
-            background-color: #f0f0f0;
+            background-color: #000;
+            color: #fff;
             text-align: center;
         }
         #guess-button {
             width: 100%;
             padding: 1rem;
             font-size: 1.2rem;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #fff;
+            color: #000;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s;
+            transition: background-color 0.3s, color 0.3s, transform 0.1s;
         }
         #guess-button:hover {
-            background-color: #45a049;
+            background-color: #e0e0e0;
         }
         #guess-button:active {
             transform: scale(0.98);
@@ -81,10 +82,11 @@
             text-align: center;
             margin: 0 5px;
             border-radius: 10px;
-            color: white;
+            color: #000;
             font-weight: bold;
             font-size: 1.5rem;
             transition: transform 0.3s;
+            background-color: #fff;
         }
         .digit.pop {
             animation: pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -97,12 +99,12 @@
         #message {
             margin-top: 1rem;
             font-weight: bold;
-            color: #333;
+            color: #fff;
             height: 1.5em;
         }
         .floating-circle {
             position: absolute;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
             border-radius: 50%;
             pointer-events: none;
             animation: float 20s infinite ease-in-out;
@@ -171,11 +173,11 @@
             const guessElement = document.createElement('div');
             guessElement.className = 'guess-row';
             guessElement.innerHTML = guess.split('').map((digit, index) => {
-                let bgColor = '#777';
+                let bgColor = '#888';
                 if (digit === targetNumber[index]) {
-                    bgColor = '#4CAF50';
+                    bgColor = '#fff';
                 } else if (targetNumber.includes(digit)) {
-                    bgColor = '#FFC107';
+                    bgColor = '#ccc';
                 }
                 return `<span class="digit" style="background-color: ${bgColor};">${digit}</span>`;
             }).join('');
