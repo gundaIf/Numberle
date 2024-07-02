@@ -86,7 +86,6 @@
             font-weight: bold;
             font-size: 1.5rem;
             transition: transform 0.3s;
-            background-color: #fff;
         }
         .digit.pop {
             animation: pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -173,11 +172,11 @@
             const guessElement = document.createElement('div');
             guessElement.className = 'guess-row';
             guessElement.innerHTML = guess.split('').map((digit, index) => {
-                let bgColor = '#888';
+                let bgColor = '#777';
                 if (digit === targetNumber[index]) {
-                    bgColor = '#fff';
+                    bgColor = '#4CAF50';  // Green for correct digit and position
                 } else if (targetNumber.includes(digit)) {
-                    bgColor = '#ccc';
+                    bgColor = '#FFC107';  // Yellow for correct digit, wrong position
                 }
                 return `<span class="digit" style="background-color: ${bgColor};">${digit}</span>`;
             }).join('');
