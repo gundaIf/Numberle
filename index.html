@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numberle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #game-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        #guess-input {
+            margin: 10px 0;
+            padding: 5px;
+            width: 100px;
+        }
+        #guess-button {
+            padding: 5px 10px;
+        }
+        #guesses {
+            margin-top: 20px;
+        }
+        .guess-row {
+            margin-bottom: 5px;
+        }
+        .digit {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            margin: 0 2px;
+            border-radius: 50%;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Numberle</h1>
+        <input type="text" id="guess-input" maxlength="4" placeholder="Enter 4 digits">
+        <button id="guess-button">Guess</button>
+        <div id="guesses"></div>
+        <div id="message"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
