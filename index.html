@@ -5,35 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Numberle</title>
     <style>
-        body {
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
             font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
+            overflow: hidden;
         }
         #game-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             text-align: center;
+            z-index: 1;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
         }
         #guess-input {
-            margin: 10px 0;
-            padding: 5px;
+            padding: 0.5rem;
+            font-size: 1rem;
             width: 100px;
+            margin-right: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         #guess-button {
-            padding: 5px 10px;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #guess-button:hover {
+            background-color: #45a049;
         }
         #guesses {
-            margin-top: 20px;
+            margin-top: 1rem;
         }
         .guess-row {
-            margin-bottom: 5px;
+            margin-bottom: 0.5rem;
         }
         .digit {
             display: inline-block;
@@ -46,6 +66,24 @@
             color: white;
             font-weight: bold;
         }
+        #message {
+            margin-top: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .floating-circle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 15s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(20px); }
+            50% { transform: translateY(-40px) translateX(0); }
+            75% { transform: translateY(-20px) translateX(-20px); }
+        }
     </style>
 </head>
 <body>
@@ -56,6 +94,94 @@
         <div id="guesses"></div>
         <div id="message"></div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        let targetNumber;
+        let guesses = [];
+        let gameOver = false;
+
+        function generateNumber() {
+            return Math.floor(1000 + Math.random() * 9000).toString();
+        }
+
+        function initGame() {
+            targetNumber = generateNumber();
+            guesses = [];
+            gameOver = false;
+            document.getElementById('guesses').innerHTML = '';
+            document.getElementById('message').textContent = '';
+            document.getElementById('guess-input').value = '';
+            document.getElementById('guess-input').disabled = false;
+            document.getElementById('guess-button').disabled = false;
+        }
+
+        function handleGuess() {
+            const guessInput = document.getElementById('guess-input');
+            const currentGuess = guessInput.value;
+            
+            if (currentGuess.length !== 4 || isNaN(currentGuess)) {
+                setMessage('Please enter a valid 4-digit number.');
+                return;
+            }
+            
+            guesses.push(currentGuess);
+            renderGuess(currentGuess);
+            guessInput.value = '';
+            
+            if (currentGuess === targetNumber) {
+                endGame('Correct! You win!');
+            } else if (guesses.length >= 6) {
+                endGame(`Game over. The number was ${targetNumber}.`);
+            }
+        }
+
+        function renderGuess(guess) {
+            const guessesContainer = document.getElementById('guesses');
+            const guessElement = document.createElement('div');
+            guessElement.className = 'guess-row';
+            guessElement.innerHTML = guess.split('').map((digit, index) => {
+                let bgColor = '#777';
+                if (digit === targetNumber[index]) {
+                    bgColor = '#4CAF50';
+                } else if (targetNumber.includes(digit)) {
+                    bgColor = '#FFC107';
+                }
+                return `<span class="digit" style="background-color: ${bgColor};">${digit}</span>`;
+            }).join('');
+            guessesContainer.appendChild(guessElement);
+        }
+
+        function setMessage(msg) {
+            document.getElementById('message').textContent = msg;
+        }
+
+        function endGame(msg) {
+            setMessage(msg);
+            gameOver = true;
+            document.getElementById('guess-input').disabled = true;
+            document.getElementById('guess-button').disabled = true;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initGame();
+            document.getElementById('guess-button').addEventListener('click', handleGuess);
+            document.getElementById('guess-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleGuess();
+            });
+
+            // Add floating circles
+            for (let i = 0; i < 10; i++) {
+                const circle = document.createElement('div');
+                circle.className = 'floating-circle';
+                circle.style.width = `${Math.random() * 50 + 20}px`;
+                circle.style.height = circle.style.width;
+                circle.style.left = `${Math.random() * 100}vw`;
+                circle.style.top = `${Math.random() * 100}vh`;
+                circle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                circle.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(circle);
+            }
+        });
+    </script>
 </body>
 </html>
