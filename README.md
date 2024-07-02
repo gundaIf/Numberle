@@ -6,7 +6,7 @@ Numberle is a number-guessing game inspired by Wordle but with a unique twist. I
 
 ## Game Description
 
-In Cryptic Numerals, players take on the role of a code breaker, attempting to decipher secret numerical messages. Each game presents a new 4-digit number to guess, with players receiving cryptic clues after each attempt.
+In Numberle, players take on the role of a code breaker, attempting to decipher secret numerical messages. Each game presents a new 4-digit number to guess, with players receiving cryptic clues after each attempt.
 
 ## How to Play
 
