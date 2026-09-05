@@ -67,6 +67,19 @@ header {
   border-bottom: 1px solid var(--line);
 }
 .brand { grid-column: 2; text-align: center; }
+.brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.brand-mark img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: block;
+  background: var(--bg-raised);
+}
 .brand h1 {
   font-size: 1.55rem;
   font-weight: 600;
