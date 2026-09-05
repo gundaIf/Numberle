@@ -1,54 +1,36 @@
 # Numberle
 
-Access: https://gundaif.github.io/Numberle/
+Play: https://gundaif.github.io/Numberle/
 
-Numberle is a number-guessing game inspired by Wordle but with a twist. Instead of guessing words, players decipher a secret 4-digit number using cryptic clues.
+A daily 4-digit code. Same number for everyone. Six guesses. Color tiles plus a growing dossier of properties.
 
-## Game Description
+## How to play
 
-In Numberle, players take on the role of a code breaker, attempting to decipher secret numerical messages. Each game presents a new 4-digit number to guess, with players receiving cryptic clues after each attempt.
+1. Guess a number from 1000 to 9999.
+2. Green: digit in the right place. Yellow: digit in the code, wrong place. Gray: not in the code.
+3. Each miss reveals one property of the number. Revealed facts stay on screen.
+4. Digits can repeat. You have 6 tries.
 
-## How to Play
+## Modes
 
-1. The game generates a random 4-digit number.
-2. Players have 6 attempts to guess the correct number.
-3. players receive a clue about the number's properties after each guess.
-4. The game provides feedback on each guess:
-   - Green: Correct digit in the correct position
-   - Yellow: Correct digit but in the wrong position
-   - No colour: Digit not in the number
+- **Daily** — one shared puzzle per UTC day. Counts toward streak and stats.
+- **Practice** — unlimited random boards. Does not affect your streak.
 
 ## Features
 
-- Minimalist black and white design
-- Cryptic clues based on mathematical properties of the number
-- Progressive difficulty as players advance through levels
-- Responsive design for various screen sizes
+- Wordle-style duplicate-digit coloring
+- Stacking math-property clues (dossier)
+- On-screen keypad and keyboard support
+- Shareable emoji result
+- Win % / streak / guess distribution
+- Hard mode (must use revealed hints)
+- Light / dark theme
+- Progress saved in the browser
 
-## Clue Examples
+## Stack
 
-- "The sum of the digits is X."
-- "The number is even/odd."
-- "The product of the digits is X."
-- "The number is/is not divisible by 3."
-- "The first/last digit is even/odd."
-
-## Technical Details
-
-- Built with HTML, CSS, and JavaScript
-- No external libraries or frameworks are used
-- Hosted on GitHub Pages
-
-## Future Enhancements
-
-- Additional types of mathematical clues
-- Leaderboard and statistics tracking
-- Daily challenge mode
-
-## Contributing
-
-Contributions to Cryptic Numerals are welcome! Please feel free to submit a Pull Request.
+Vanilla HTML, CSS, and JavaScript. No build step. Hosted on GitHub Pages.
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+MIT
