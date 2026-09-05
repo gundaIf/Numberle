@@ -1,0 +1,17 @@
+{
+  "name": "Numberle",
+  "short_name": "Numberle",
+  "description": "A daily 4-digit code. Same number for everyone.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f4ef",
+  "theme_color": "#f6f4ef",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
