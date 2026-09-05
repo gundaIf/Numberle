@@ -13,8 +13,8 @@ A daily 4-digit code. Same number for everyone. Six guesses. Color tiles plus a 
 
 ## Modes
 
-- **Daily** — one shared puzzle per UTC day. Counts toward streak and stats.
-- **Practice** — unlimited random boards. Does not affect your streak.
+- **Daily:** one shared puzzle per UTC day. Counts toward streak and stats.
+- **Practice:** unlimited random boards. Does not affect your streak.
 
 ## Features
 
